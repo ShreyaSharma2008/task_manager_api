@@ -63,6 +63,24 @@ app.put("/tasks/:id", (req,res)=>{
     res.status(200).json(task);
     });
 
+    //delete task
+
+    app.delete("/tasks/:id",(req,res)=>{
+        const taskId = Number(req.params.id);
+        const idx = tasks.findIndex((task)=>{
+            return task.id === taskId;
+        });
+        if(idx === -1){
+            return res.status(404).json({
+                message:"Task not found."
+            });
+        }
+        tasks.splice(idx,1);
+        res.status(200).json({
+            message : "Task deleted successfully"
+        });
+    });
+
 app.listen(3000,()=>{
     console.log("Server is running...");
 });

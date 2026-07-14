@@ -17,11 +17,37 @@ const getTaskById = (req,res) => {
 
 const createTask = (req,res)=> {
     const {title} = req.body;
+
+    if(!title){
+        return res.status(400).json({
+            message : "Title is required"
+        });
+    }
+
+    if(typeof title !== "string"){
+        return res.status(400).json({
+            message : "Title should be string"
+        });
+    }
+
+    if(title.trim() === ""){
+        return res.status(400).json({
+            message : "Title is required"
+        });
+    }
+
+    if(title.length > 100){
+        return res.status(400).json({
+            message : "Title limit exceeded"
+        });
+    }
+
     const newTask = {
         id : tasks.length+1,
         title,
         completed : false
     };
+
     tasks.push(newTask);
     res.status(201).json(newTask);
 }
